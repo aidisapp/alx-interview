@@ -84,7 +84,8 @@ def build_solution(row, group):
     else:
         for col in range(n):
             pos_to_add = [row, col]
-            if all(not is_attacking(pos_to_add, queen_pos) for queen_pos in group):
+            if all(not is_attacking(pos_to_add, queen_pos)
+                   for queen_pos in group):
                 group.append(pos_to_add)
                 build_solution(row + 1, group)
                 group.pop()
