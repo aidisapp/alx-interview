@@ -5,6 +5,7 @@ N-Queens problem solver
 
 import sys
 
+
 def is_safe(board, row, col, n):
     """Check if a queen can be placed at board[row][col]"""
     for i in range(col):
@@ -20,6 +21,7 @@ def is_safe(board, row, col, n):
             return False
 
     return True
+
 
 def solve_n_queens_util(board, col, n, solutions):
     """Utilize backtracking to solve the N-Queens problem"""
@@ -39,6 +41,7 @@ def solve_n_queens_util(board, col, n, solutions):
             solve_n_queens_util(board, col + 1, n, solutions)
             board[i][col] = 0  # Backtrack
 
+
 def solve_n_queens(n):
     """Solve the N-Queens problem and print solutions"""
     board = [[0] * n for _ in range(n)]
@@ -48,6 +51,7 @@ def solve_n_queens(n):
     # Print all the solutions found
     for solution in solutions:
         print(solution)
+
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
