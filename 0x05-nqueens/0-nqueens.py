@@ -2,64 +2,85 @@
 """
 N-Queens problem solver
 """
-from sys import argv, exit
+
+import sys
 
 
-def solveNQueens(n):
-    """Program that places N non-attacking queens on an NxN chessboard"""
-    res = []
-    queens = [-1] * n
-    # index represents row no and value represents col no
-
-    def fs(index):
-        """Recursively resolves the N queens problem"""
-        if index == len(queens):  # n queens have been placed correctly
-            res.append(queens[:])
-            return  # backtracking
-        for i in range(len(queens)):
-            queens[index] = i
-            if valid(index):  # pruning
-                fs(index + 1)
-
-    # check whether nth queens can be placed
-    def valid(n):
-        """Method that checks if a position in the board is valid"""
-        for i in range(n):
-            if abs(queens[i] - queens[n]) == n - i:  # same diagonal
-                return False
-            if queens[i] == queens[n]:  # same column
-                return False
-        return True
-
-    def make_all_boards(res):
-        """Method that builts the List that be returned"""
-        actual_boards = []
-        for queens in res:
-            board = []
-            for row, col in enumerate(queens):
-                board.append([row, col])
-            actual_boards.append(board)
-        return actual_boards
-
-    fs(0)
-    return make_all_boards(res)
-
-
-if __name__ == "__main__":
-    if len(argv) < 2:
-        print('Usage: nqueens N')
-        exit(1)
+if __name__ == '__main__':
+    if len(sys.argv) != 2:
+        print("Usage: nqueens N")
+        sys.exit(1)
     try:
-        n = int(argv[1])
+        n = int(sys.argv[1])
     except ValueError:
         print('N must be a number')
         exit(1)
-
     if n < 4:
         print('N must be at least 4')
         exit(1)
-    else:
-        result = solveNQueens(n)
-        for row in result:
-            print(row)
-            
+    solutions = []
+    placed_queens = []  # coordinates format [row, column]
+    stop = False
+    r = 0
+    c = 0
+    # iterate thru rows
+    while r < n:
+        goback = False
+        # iterate thru columns
+        while c < n:
+            # check is current column is safe
+            safe = True
+            for cord in placed_queens:
+                col = cord[1]
+                if(col == c or col + (r-cord[0]) == c or
+                        col - (r-cord[0]) == c):
+                    safe = False
+                    break
+            if not safe:
+                if c == n - 1:
+                    goback = True
+                    break
+                c += 1
+                continue
+            # place queen
+            cords = [r, c]
+            placed_queens.append(cords)
+            # if last row, append solution and reset all to last unfinished row
+            # and last safe column in that row
+            if r == n - 1:
+                solutions.append(placed_queens[:])
+                for cord in placed_queens:
+                    if cord[1] < n - 1:
+                        r = cord[0]
+                        c = cord[1]
+                for i in range(n - r):
+                    placed_queens.pop()
+                if r == n - 1 and c == n - 1:
+                    placed_queens = []
+                    stop = True
+                r -= 1
+                c += 1
+            else:
+                c = 0
+            break
+        if stop:
+            break
+        # on fail: go back to previous row
+        # and continue from last safe column + 1
+        if goback:
+            r -= 1
+            while r >= 0:
+                c = placed_queens[r][1] + 1
+                del placed_queens[r]  # delete previous queen coordinates
+                if c < n:
+                    break
+                r -= 1
+            if r < 0:
+                break
+            continue
+        r += 1
+    for idx, val in enumerate(solutions):
+        if idx == len(solutions) - 1:
+            print(val, end='')
+        else:
+            print(val)
