@@ -62,3 +62,4 @@ if __name__ == "__main__":
         result = solveNQueens(n)
         for row in result:
             print(row)
+            
