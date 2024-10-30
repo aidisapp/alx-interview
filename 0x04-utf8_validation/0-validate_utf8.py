@@ -6,7 +6,7 @@ import sys
 
 
 def printsts(dic, size):
-    """ WWPrints information """
+    """ Prints information """
     print("File size: {:d}".format(size))
     for i in sorted(dic.keys()):
         if dic[i] != 0:
@@ -29,16 +29,15 @@ try:
 
         try:
             size += int(stlist[-1])
-        except:
+        except ValueError:
             pass
 
         try:
             if stlist[-2] in sts:
                 sts[stlist[-2]] += 1
-        except:
+        except IndexError:
             pass
     printsts(sts, size)
-
 
 except KeyboardInterrupt:
     printsts(sts, size)
