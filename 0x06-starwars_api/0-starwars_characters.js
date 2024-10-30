@@ -26,7 +26,7 @@ const printCharacterNames = (characters, index) => {
 
     // Print the character name
     console.log(JSON.parse(body).name);
-    
+
     // Recursive call to process the next character
     printCharacterNames(characters, index + 1);
   });
