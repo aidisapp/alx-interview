@@ -1,6 +1,6 @@
 #!/usr/bin/node
 
-const request = require('request');
+import request from 'request';
 
 // Get the movie ID from command line arguments
 const movieId = process.argv[2];
