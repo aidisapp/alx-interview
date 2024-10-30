@@ -21,13 +21,13 @@ const printCharacterNames = (characters, index) => {
   if (index === characters.length) return; // Stop condition
 
   // Request each character's data
-  request(characters[index], (err, res, body) => {
-    if (err) throw err;
+  request(characters[index], (err, _res, body) => {
+          if (err) throw err;
 
-    // Print the character name
-    console.log(JSON.parse(body).name);
-    
-    // Recursive call to process the next character
-    printCharacterNames(characters, index + 1);
-  });
+          // Print the character name
+          console.log(JSON.parse(body).name);
+
+          // Recursive call to process the next character
+          printCharacterNames(characters, index + 1);
+      });
 };
